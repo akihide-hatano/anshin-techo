@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\MedicationMarkedUncompleted; // ★この行を追加★
+use App\Listeners\SendAdminNotification;    // ★この行を追加★
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,14 +17,16 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
-        // Firebase関連のイベントとリスナーのマッピングはここには含みません
+    Registered::class => [
+        SendEmailVerificationNotification::class,
+    ],
+    // ★★★ ここにMedicationMarkedUncompletedイベントとSendAdminNotificationリスナーのマッピングを追加 ★★★
+    MedicationMarkedUncompleted::class => [
+        SendAdminNotification::class,
+    ],
     ];
-
     /**
-     * Register any application services.
+     * Register services.
      */
     public function register(): void
     {
@@ -30,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      */
     public function boot(): void
     {

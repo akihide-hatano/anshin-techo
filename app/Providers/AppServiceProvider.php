@@ -3,6 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Notification;
+use Kreait\Laravel\Firebase\Firebase; // 必要なuseステートメント
+use Kreait\Firebase\Messaging\CloudMessage; // 必要なuseステートメント
+use Illuminate\Notifications\Channels\Channel; // 必要なuseステートメント
+use Illuminate\Support\Facades\Log; // 必要なuseステートメント
+use App\Notifications\PushNotification; // ★★★ この行を追加 ★★★ (toFcmエラー解消のため)
+use Illuminate\Notifications\Notification as BaseNotification; // LaravelのNotificationクラスと名前衝突を避けるため
 
 class AppServiceProvider extends ServiceProvider
 {
